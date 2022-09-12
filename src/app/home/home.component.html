@@ -1,0 +1,97 @@
+<div class="container">
+  <button class="btn btn-primary m-3" (click)="open(content)">Nuevo</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Año</th>
+        <th scope="col">Fecha Ingreso</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let anime of animes">
+        <th scope="row">{{ anime.id }}</th>
+        <td>{{ anime.nombre }}</td>
+        <td>{{ anime.anio }}</td>
+        <td>{{ anime.fechaIngreso }}</td>
+        <td>
+          <button class="btn btn-success" (click)="cargarDatos(anime, content)">
+            Editar
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="eliminar(anime)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="actualizarTabla()"
+    >
+    </ngb-pagination>
+
+    <select
+      class="form-select"
+      style="width: auto"
+      [(ngModel)]="pageSize"
+      (ngModelChange)="actualizarTabla()"
+    >
+      <option [ngValue]="2">2 items per page</option>
+      <option [ngValue]="4">4 items per page</option>
+      <option [ngValue]="6">6 items per page</option>
+    </select>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Formulario Anime</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="nombre">Nombre </label>
+          <input
+            id="nombre"
+            class="form-control"
+            [(ngModel)]="anime.nombre"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="año">Año </label>
+          <input
+            type="number"
+            id="año"
+            class="form-control"
+            [(ngModel)]="anime.anio"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="accion()">
+        Guardar
+      </button>
+      <button type="button" class="btn btn-danger" (click)="cerrar()">
+        Cancelar
+      </button>
+    </div>
+  </ng-template>
+</div>
